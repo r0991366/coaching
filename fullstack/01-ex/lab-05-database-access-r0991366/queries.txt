@@ -1,0 +1,22 @@
+... insert your queries here ...
+
+-- What lesson was followed by the most customers? -> lesson with id=5
+SELECT l.id AS lesson_id, l.date, l.time_start, COUNT(ctl.customer_id) AS customer_count
+FROM lesson l
+JOIN customer_theory_lesson ctl
+    ON l.id = ctl.lesson_id
+GROUP BY l.id, l.date, l.time_start
+ORDER BY customer_count DESC
+LIMIT 1;
+
+SELECT *
+FROM lesson
+WHERE id = 5;
+
+
+
+-- How many customers do not have a driving license? -> 1
+SELECT COUNT(*) AS customers_without_license
+FROM customer c
+LEFT JOIN customer_driving_license cdl ON c.id = cdl.customer_id
+WHERE cdl.customer_id IS NULL;

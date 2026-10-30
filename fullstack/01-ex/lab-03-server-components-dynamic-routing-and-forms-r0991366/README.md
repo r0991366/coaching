@@ -1,0 +1,23 @@
+# Courses: front-end
+
+## Dotenv
+
+We need to tell the front-end where the back-end is located by supplying a URL. Once we have our own back-end, we will be using localhost:3000, but for now, we will fetch data from another endpoint.
+
+To get this demo up and running, you'll need to create a **.env** file in you root project directory (on the same level as .gitignore). The contents should look like this:
+
+```properties
+ NEXT_PUBLIC_API_URL = https://my-json-server.typicode.com/UCLL-Full-Stack-2526/json-server-back-end
+```
+
+## Install and start Next.js app
+
+Start the development server by opening a terminal in the `front-end` folder and running:
+
+```console
+$ npm install
+$ npm run dev
+
+```
+
+Open [http://localhost:8080](http://localhost:8080) with your browser to see the result.

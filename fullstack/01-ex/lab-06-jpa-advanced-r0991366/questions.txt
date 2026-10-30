@@ -1,0 +1,29 @@
+Transactions
+------------
+
+Q1: Does the implementation in CustomerService fulfill the requirements from the TransactionTest
+givenInvalidCustomerInformation_whenCreateCustomerWithNewLicensesAndExceptionIsThrown_thenNothingIsCreated?
+
+Answer: I'd say no because the check, to see if the customer already exists, happens after the customer is created.
+
+Q2: Why does update in the LessonService not generate an update query?
+
+Answer: The lesson was changed but that changed was never committed to the database. So in that "scope" lesson was correctly changed, but if it is read after the method ends, the old values will be read.
+
+Transaction Isolation Levels - Dirty Reads
+------------------------------------------
+
+Q3: Why does the experiment not work?
+
+Answer: For me, it did show the uncommited information: "Read the following name in the DB: Gilroy" was printed in the console.
+
+Entity Lifecycle and Cascades
+-----------------------------
+
+Q4: Why are lesson and subject not both saved at the same time? Why does the method crash?
+
+Answer: Lesson and subject is a OneToMany relationship. The change made in lesson, should also be "recorded" in subject. However, the code doesn't do this, it only updates lesson, not subject (or any of the other relationships with lesson).
+
+Q5: Why does the delete operation no longer work when all the cascades are present?
+
+Answer: When deleting the lesson, all subjects, classrooms, ... that have a relationship with that lesson are also deleted. (cascade = CascadeType.ALL) applies to ALL operations (MERGE, PERSIST, REMOVE, ...) while we are only interested in updating relationships when lesson is updated, when it's deleted, it should be removed as relationship, but the other side should persist.

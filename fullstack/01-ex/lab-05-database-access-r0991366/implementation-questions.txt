@@ -1,0 +1,46 @@
+ID Generation
+-------------
+
+When working with H2, the database generated the keys when we inserted the rows with JPA.
+We made sure that PostgreSQL is doing the same thing.
+What datatype was used for this in schema.sql?
+Is there anything that catches your eye when looking at the insert statements? Why is this column omitted from the statements?
+
+Answer:
+We're using PostgreSQL. The id column is missing. This is because the id is automatically generated in the model classes.
+
+Records
+-------
+
+Have a look at the CustomerInput class. This is a record.
+Can you think of reasons why 'data transfer objects' are often implemented with records instead of classes?
+
+Answer:
+Because a record is immutable. When transferring data you don't want it to change so it makes more sense to handle data as a record.
+
+Repository Interfaces
+---------------------
+
+Check the package 'repository'. Why is the CustomerRepository an interface and not a class?
+
+Answer:
+This is a Spring-Boot Application. Spring auto-generates implementations at runtime. However, this only works when the interface extends JpaRepository<Customer, Long>. The methods of this interface are later implemented in jpa/jdbc interfaces.
+
+Repository Implementations
+--------------------------
+
+Note that the 'SpringDataJpaCustomerRepository' is annotated with Primary. What happens if there are multiple implementations
+of an interface without Primary? Verify this behaviour by moving Primary to a different class and running the tests.
+Why are the tests failing now?
+
+Answer:
+If there are multiple classes implementing the same interface, spring will fail to start because there are multiple possible beans that could be implemented. Spring has a rule: "If multiple beans match, inject the one marked @Primary." So @Primary sets like a default bean to use.
+If I remove the annotation an error occurs: "Parameter 0 of constructor in be.ucll.fs.lab5.service.CustomerService required a single bean, but 3 were found:"
+
+CustomerTest
+------------
+
+Why do the assertions on the join tables in the delete test make use of a JdbcClient? Is it not possible to check this with Spring Data Repositories?
+
+Answer:
+Because the join tables aren’t modeled as entities, in the tests we want to look directly at the raw table rows in the database (bypassing JPA’s mapping and cache). Using Spring Data would require extra plumbing en work that could get complicated.

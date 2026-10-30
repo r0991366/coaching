@@ -1,0 +1,47 @@
+server:
+  port: 3000
+
+spring:
+  application:
+    name: lab7
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: none
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        auto_quote_keyword: true
+        format_sql: true
+      open-in-view: true
+  sql:
+    init:
+      mode: always
+    encoding: UTF-8
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/lab7
+    username: postgres
+    password: postgres
+
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          authority-prefix: ""
+  profiles:
+    active: jpa
+
+jwt:
+  secret-key: d2ViNC1ub3Qtc28tc2VjcmV0LWFjY2Vzcy1zZWNyZXQ=
+
+cors:
+  allowed-origins:
+    - http://localhost:8080
+
+logging:
+  level:
+    org.springframework.transaction: DEBUG
+    org.springframework.orm.jpa: DEBUG
+    org.springframework.jdbc: DEBUG
+    org.springframework.security: DEBUG
